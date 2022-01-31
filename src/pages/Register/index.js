@@ -82,7 +82,7 @@ export function Register() {
             <Field placeholder="ponto de referência" name="ponto_referencia" onChange={handleField} />
           </div>
 
-          <h2 className="mb-8 text-dark-jungle-green text-xl">composição familiar</h2>
+          <h2 className="mb-8 text-dark-jungle-green text-xl">composição familiar:</h2>
 
           {members}
 
