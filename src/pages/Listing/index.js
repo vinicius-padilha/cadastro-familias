@@ -1,7 +1,6 @@
 import { Table } from "../../components/Table";
 import { Title } from "../../components/Title";
 import { Toolbar } from "../../components/Toolbar";
-import { useModal } from "../../hooks/useModal";
 import { useEffect, useState } from "react";
 import { getDatabase, ref, child, get } from "firebase/database";
 import { useStore } from "../../store";
@@ -26,7 +25,6 @@ const columns =  [
 ]
 
 export function Listing() {
-  const { openModal } = useModal();
   const dbRef = ref(getDatabase());
   const [data, setData] = useState([]);
   const { setLoading } = useStore();
@@ -51,7 +49,7 @@ export function Listing() {
     }).finally(() => {
       setLoading(false);
     })
-  }, []);
+  }, [dbRef, setLoading]);
 
   return (
     <div>

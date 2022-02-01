@@ -4,6 +4,7 @@ module.exports = {
     extend: {
       maxWidth: {
         '18': '18rem',
+        '10': '10rem',
         '7': '7rem',
       },
       spacing: {

@@ -6,14 +6,11 @@ import './index.css';
 import App from './App';
 
 import { initializeApp } from 'firebase/app';
-import { getFirestore } from 'firebase/firestore/lite';
 
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useStore } from './store';
-import { useModal } from './hooks/useModal';
 import { Button } from './components/Button';
-import { getDatabase } from "firebase/database";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBtz8qzqqDWeYb9aU_0iJaX7UEMWhaOSxM",
