@@ -1,9 +1,12 @@
 import { useTable, usePagination, useSortBy } from 'react-table'
 import DoubleArrowRight from '../../assets/icons/double-arrow.svg'
 import ArrowRight from '../../assets/icons/arrow.svg'
+import Pencil from '../../assets/icons/pencil.svg'
+import Eye from '../../assets/icons/eye.svg'
+import Trash from '../../assets/icons/trash.svg'
 import Empty from '../../assets/images/empty.png'
 
-export function Table({columns, data }) {
+export function Table({ columns, data, onView, onEdit, onDelete }) {
   const {
     getTableProps,
     getTableBodyProps,
@@ -31,30 +34,36 @@ export function Table({columns, data }) {
 
   const cols = headerGroups.map((headerGroup) => headerGroup.headers.length);
 
+  const handleView = (row) => onView(row); 
+  const handleEdit = (row) => onEdit(row); 
+  const handleDelete = (row) => onDelete(row); 
+
   return (
     <>
       <div className="border-2 border-light-silver w-full h bg-white rounded-md overflow-hidden">
         <table {...getTableProps()} className={`w-full ${data.length === 0 && 'h-table-size'}`}>
           {page.length > 0 && <thead className="h-12 bg-space-cadet">
-              {headerGroups.map(headerGroup => (
-                <tr {...headerGroup.getHeaderGroupProps()}>
-                  {headerGroup.headers.map(column => (
-                    <th {...column.getHeaderProps(column.getSortByToggleProps())} className="border-r-2 last:border-r-0 border-light-silver">
-                      <div className="flex items-center w-full justify-center text-white font-semibold">
+            {headerGroups.map(headerGroup => (
+              <tr {...headerGroup.getHeaderGroupProps()}>
+                {headerGroup.headers.map(column => (
+                  <th {...column.getHeaderProps(column.getSortByToggleProps())} className="border-r-2 last:border-r-0 border-light-silver">
+                    <div className="flex items-center w-full justify-center text-white font-semibold">
 
                       {column.render('Header')}
-                        {column.isSorted
-                          ? column.isSortedDesc
-                            ? <span style={{ backgroundImage: `url(${ArrowRight})` }} className="ml-2 w-6 h-6 inline-block bg-cover bg-center rotate-90 invert" />
-                            : <span style={{ backgroundImage: `url(${ArrowRight})` }} className="ml-2 w-6 h-6 inline-block bg-cover bg-center -rotate-90 invert" />
-                          : ''}
-                      </div>
+                      {column.isSorted
+                        ? column.isSortedDesc
+                          ? <span style={{ backgroundImage: `url(${ArrowRight})` }} className="ml-2 w-6 h-6 inline-block bg-cover bg-center rotate-90 invert" />
+                          : <span style={{ backgroundImage: `url(${ArrowRight})` }} className="ml-2 w-6 h-6 inline-block bg-cover bg-center -rotate-90 invert" />
+                        : ''}
+                    </div>
 
-                    </th>
-                  ))}
-                </tr>
-              ))}
-            </thead>
+                  </th>
+
+                ))}
+                <th className="border-r-2 last:border-r-0 border-light-silver text-white" />
+              </tr>
+            ))}
+          </thead>
           }
           <tbody {...getTableBodyProps()}>
             {
@@ -64,8 +73,19 @@ export function Table({columns, data }) {
                   return (
                     <tr {...row.getRowProps()}>
                       {row.cells.map(cell => {
-                        return <td {...cell.getCellProps()} className="border-t-2 border-r-2 last:border-r-0 border-light-silver px-4 h-12">{cell.render('Cell')}</td>
+                        return <td {...cell.getCellProps()} className="border-t-2 border-r-2 border-light-silver px-4 h-12">{cell.render('Cell')}</td>
                       })}
+                      <td className="border-t-2 border-r-0 border-light-silver px-4 h-12 w-44 text-center">
+                        <button onClick={() => handleView(row)} className="mx-1 mr-4">
+                          <span style={{ backgroundImage: `url(${Eye})` }} className="w-6 h-6 block bg-cover bg-center fill-dark-jungle-green" />
+                        </button>
+                        <button onClick={() => handleEdit(row)} className="mx-1 mr-4">
+                          <span style={{ backgroundImage: `url(${Pencil})` }} className="w-6 h-6 block bg-cover bg-center fill-dark-jungle-green" />
+                        </button>
+                        <button onClick={() => handleDelete(row)} className="mx-1">
+                          <span style={{ backgroundImage: `url(${Trash})` }} className="w-6 h-6 block bg-cover bg-center fill-dark-jungle-green" />
+                        </button>
+                      </td>
                     </tr>
                   )
                 })
@@ -80,42 +100,42 @@ export function Table({columns, data }) {
             }
           </tbody>
         </table>
-        
+
       </div>
       <div className="pagination flex justify-end items-center mt-4">
-     
-      <select
-        value={pageSize}
-        onChange={e => {
-          setPageSize(Number(e.target.value))
-        }}
-        className="bg-transparent"
-      >
-        {[10, 20, 30, 40, 50].map(pageSize => (
-          <option key={pageSize} value={pageSize}>
-            Mostrar {pageSize}
-          </option>
-        ))}
-      </select>
-      <span className="text-dark-jungle-green mx-8">
-        Página {' '}
-        <strong>
-          {pageIndex + 1} de {pageOptions.length}
-        </strong>
-      </span>
-      <button onClick={() => gotoPage(0)} className="disabled:opacity-20 mx-1" disabled={!canPreviousPage}>
-        <span style={{ backgroundImage: `url(${DoubleArrowRight})` }} className="w-6 h-6 block bg-cover bg-center rotate-180" />
-      </button>
-      <button onClick={() => previousPage()} className="disabled:opacity-20 mx-1" disabled={!canPreviousPage}>
-        <span style={{ backgroundImage: `url(${ArrowRight})` }} className="w-6 h-6 block bg-cover bg-center rotate-180" />
-      </button>
-      <button onClick={() => nextPage()} className="disabled:opacity-20 mx-1" disabled={!canNextPage}>
-        <span style={{ backgroundImage: `url(${ArrowRight})` }} className="w-6 h-6 block bg-cover bg-center" />
-      </button>
-      <button onClick={() => gotoPage(pageCount - 1)} className="disabled:opacity-20 mx-1" disabled={!canNextPage}>
-        <span style={{ backgroundImage: `url(${DoubleArrowRight})` }} className="w-6 h-6 block bg-cover bg-center" />
-      </button>
-    </div>
-  </>
+
+        <select
+          value={pageSize}
+          onChange={e => {
+            setPageSize(Number(e.target.value))
+          }}
+          className="bg-transparent"
+        >
+          {[10, 20, 30, 40, 50].map(pageSize => (
+            <option key={pageSize} value={pageSize}>
+              Mostrar {pageSize}
+            </option>
+          ))}
+        </select>
+        <span className="text-dark-jungle-green mx-8">
+          Página {' '}
+          <strong>
+            {pageIndex + 1} de {pageOptions.length}
+          </strong>
+        </span>
+        <button onClick={() => gotoPage(0)} className="disabled:opacity-20 mx-1" disabled={!canPreviousPage}>
+          <span style={{ backgroundImage: `url(${DoubleArrowRight})` }} className="w-6 h-6 block bg-cover bg-center rotate-180" />
+        </button>
+        <button onClick={() => previousPage()} className="disabled:opacity-20 mx-1" disabled={!canPreviousPage}>
+          <span style={{ backgroundImage: `url(${ArrowRight})` }} className="w-6 h-6 block bg-cover bg-center rotate-180" />
+        </button>
+        <button onClick={() => nextPage()} className="disabled:opacity-20 mx-1" disabled={!canNextPage}>
+          <span style={{ backgroundImage: `url(${ArrowRight})` }} className="w-6 h-6 block bg-cover bg-center" />
+        </button>
+        <button onClick={() => gotoPage(pageCount - 1)} className="disabled:opacity-20 mx-1" disabled={!canNextPage}>
+          <span style={{ backgroundImage: `url(${DoubleArrowRight})` }} className="w-6 h-6 block bg-cover bg-center" />
+        </button>
+      </div>
+    </>
   )
 }

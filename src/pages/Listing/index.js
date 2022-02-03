@@ -51,12 +51,14 @@ export function Listing() {
     })
   }, [dbRef, setLoading]);
 
+  const handleDelete = (data) => console.log('Deletar', data);
+
   return (
     <div>
       <Title>listagem</Title>
       <Toolbar />
       <div className="mt-8">
-        <Table columns={columns} data={data} />
+        <Table columns={columns} data={data} onView={({original}) => console.log('Visualizar', original)} onEdit={({original}) => console.log('Editar', original)} onDelete={({original}) => handleDelete(original)} />
       </div>
     </div>
   )
