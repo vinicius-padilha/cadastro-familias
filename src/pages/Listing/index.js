@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Table } from "../../components/Table";
 import { Title } from "../../components/Title";
 import { Toolbar } from "../../components/Toolbar";
