@@ -1,11 +1,14 @@
 import { Table } from "../../components/Table";
 import { Title } from "../../components/Title";
 import { Toolbar } from "../../components/Toolbar";
-import { useEffect, useState } from "react";
-import { getDatabase, ref, child, get } from "firebase/database";
+import { useCallback, useEffect, useState } from "react";
 import { useStore } from "../../store";
+import { collection, deleteDoc, doc, getDocs, getFirestore } from "firebase/firestore";
+import { toast } from "react-toastify";
+import { useModal } from "../../hooks/useModal";
+import { useNavigate } from "react-router-dom";
 
-const columns =  [
+const columns = [
   {
     Header: 'Nome referência',
     accessor: 'nome_referencia',
@@ -25,40 +28,60 @@ const columns =  [
 ]
 
 export function Listing() {
-  const dbRef = ref(getDatabase());
+  const db = getFirestore();
   const [data, setData] = useState([]);
   const { setLoading } = useStore();
+  const { openModal, closeModal } = useModal()
+  const navigate = useNavigate()
+
+  const getList = useCallback(async () => {
+    try {
+      const querySnapshot = await getDocs(collection(db, "familias"));
+      let snapshotList = [];
+
+      querySnapshot.forEach((doc) => {
+        snapshotList.push({ key: doc.id, ...doc.data() })
+      });
+
+      setData(snapshotList)
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  }, [db])
 
   useEffect(() => {
     setLoading(true);
 
-    get(child(dbRef, `familias`)).then((snapshot) => {
-      if (snapshot.exists()) {
-        let snapshotList = [];
+    getList();
+  }, [db, getList]);
 
-        snapshot.forEach((item) => {
-          snapshotList.push({key: item.key, ...item.val()})
-        });
+  const handleDelete = async (key) => {
+    closeModal()
+    setLoading(true);
+    
+    try {
+      await deleteDoc(doc(db, "familias", key));
+      
+      getList();
+    } catch {
+      toast.error('Erro ao excluir registro!')
 
-        setData(snapshotList) 
-      } else {  
-        console.log("No data available");
-      } 
-    }).catch((error) => { 
-      console.error(error);
-    }).finally(() => {
       setLoading(false);
-    })
-  }, [dbRef, setLoading]);
+    }
+  };
 
-  const handleDelete = (data) => console.log('Deletar', data);
+  const openModalDelete = (data) => {
+    openModal({ action: () => handleDelete(data.key)})
+  }
 
   return (
     <div>
       <Title>listagem</Title>
       <Toolbar />
       <div className="mt-8">
-        <Table columns={columns} data={data} onView={({original}) => console.log('Visualizar', original)} onEdit={({original}) => console.log('Editar', original)} onDelete={({original}) => handleDelete(original)} />
+        <Table columns={columns} data={data} onView={({ original }) => navigate(`/register/view/${original.key}`)} onEdit={({ original }) => navigate(`/register/edit/${original.key}`)} onDelete={({ original }) => openModalDelete(original)} />
       </div>
     </div>
   )

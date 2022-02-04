@@ -49,8 +49,8 @@ function App() {
             <Route index element={<Listing />} />
             <Route path={RoutesList.REGISTER}>
               <Route index element={<Register />} />
-              <Route path={`${RoutesList.EDIT_REGISTER}/:id`} element={<Title>editar <b>cadastro</b></Title>} />
-              <Route path={`${RoutesList.VIEW_REGISTER}/:id`} element={<Title>visualizar <b>cadastro</b></Title>} />
+              <Route path={`${RoutesList.EDIT_REGISTER}/:id`} element={<Register />} />
+              <Route path={`${RoutesList.VIEW_REGISTER}/:id`} element={<Register />} />
             </Route>
           </Route>
         </Route>
