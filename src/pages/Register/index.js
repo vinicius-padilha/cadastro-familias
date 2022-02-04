@@ -83,7 +83,6 @@ export function Register() {
   });
 
   const handleCreateRegister = async (data) => {
-    console.log(data)
     if (!data.nome_referencia) return toast.error("O campo nome da referência do grupo familiar é obrigatório")
     if (!data.cpf) return toast.error("O campo CPF é obrigatório")
     if (!data.fone) return toast.error("O campo fone é obrigatório")
@@ -93,6 +92,8 @@ export function Register() {
 
     if (mode === 'edit') {
       try {
+        setLoading(true)
+
         await setDoc(doc(db, "familias", params.id), data);
         
         toast.success("Registro atualizado com sucesso, você será redirecionado para tela de listagem!")
@@ -102,10 +103,14 @@ export function Register() {
         }, 1500);
       } catch {
         toast.error("Erro ao prosseguir com a atualização do registro!")
+      } finally {
+        setLoading(false)
       }
     } else {
 
       try {
+        setLoading(true)
+        
         await addDoc(collection(db, "familias"), data);
         
         toast.success("Registro efetuado com sucesso, você será redirecionado para tela de listagem!")
@@ -115,6 +120,8 @@ export function Register() {
         }, 1500);
       } catch {
         toast.error("Erro ao prosseguir com o registro!")
+      } finally {
+        setLoading(false)
       }
     }
   }
