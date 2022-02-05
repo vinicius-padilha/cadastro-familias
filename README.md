@@ -1,70 +1,72 @@
-# Getting Started with Create React App
+# Cadastro de Famílias
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+O projeto busca contribuir com uma plataforma de código aberto que irá gerenciar e tratar os dados inseridos para transformá-los em informações úteis para o melhor atendimento das famílias. 
 
-## Available Scripts
+## 🚀 Começando
 
-In the project directory, you can run:
+Essas instruções permitirão que você obtenha uma cópia do projeto em operação na sua máquina local para fins de desenvolvimento e implementações.
 
-### `npm start`
+Consulte **Implantação** para saber como implantar o projeto.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### 📋 Pré-requisitos
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+```
+- Node.js versão 16.13.2 ou maior
+- Yarn versão 3.2.0 ou maior
+```
 
-### `npm test`
+### 🔧 Instalação
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Instalação dos pacotes:
 
-### `npm run build`
+```
+yarn install
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Abrir ambiente de desenvolvimento:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```
+yarn start
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Gerar pacote de produção:
 
-### `npm run eject`
+```
+yarn build
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## ⚙️ Executando os testes
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### 🔩 Analise os testes de ponta a ponta
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```
+yarn test
+```
 
-## Learn More
+### ⌨️ E testes de estilo de codificação
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```
+yarn test
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## 📦 Desenvolvimento
 
-### Code Splitting
+### Banco de dados
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Para a configuração do banco de dados [Cloud Firestore](https://firebase.google.com/products/firestore) (Firebase), é necessario a configuração das chaves no arquivo `index.js`, encontrado na raiz da pasta `src`, o objeto existente pode ser substituido por a novas chaves, um passo a passo detalhado de configuração do Cloud Firestore pode ser encontrado [aqui](https://firebase.google.com/docs/firestore).
 
-### Analyzing the Bundle Size
+## 📺 Implantação
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### WEB
 
-### Making a Progressive Web App
+Utilize o comando `yarn build` para gerar o pacote de produção, na raiz do diretorio será criado uma pasta chamada `build`, responsavel por conter o pacote otimizado e publicavel do projeto.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### Banco de Dados
 
-### Advanced Configuration
+Após feitas as configurações do Banco de Dados, consulte **Desenvolvimento**, verifique as configurações de regras de acesso do projeto dentro do Cloud Firestore antes de publicar a web.   
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## 🛠️ Construído com
 
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+* [Create React App](https://create-react-app.dev/)
+* [Firebase - Cloud Firestore](https://firebase.google.com/products/firestore)
